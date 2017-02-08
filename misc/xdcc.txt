@@ -1,0 +1,19 @@
+pacman -S --needed --noconfirm irssi
+
+function setup_irssi() {
+	mkdir -p /mnt/shared/xdcc
+	
+	#/SET dcc_autoresume ON
+	#/SET dcc_autoget ON
+	#/SET dcc_upload_path /mnt/shared/xdcc
+	#/SET dcc_download_path /mnt/shared/xdcc
+	#/SET nick mynick123
+	
+	#/server irc.servername.net
+	
+	#/msg nickserv register mypass my@email.com
+	#/msg NickServ confirm thecode
+	
+	#/mgs NickServ IDENTIFY mypass
+	#/join channelname
+}
