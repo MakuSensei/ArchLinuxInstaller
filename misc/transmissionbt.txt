@@ -66,4 +66,4 @@ sudo ln -sf /var/lib/transmission/.config/transmission-daemon/settings.json /hom
 cp /var/lib/transmission/.config/transmission-daemon/settings.json /home/transmission/.config/transmission-daemon/
 
 =============
-ln -sf  /mnt/shared/transmission-daemon /home/transmission/.config/transmission-daemon
+ln -sf  /mnt/shared/transmission /home/transmission/.config/transmission-daemon

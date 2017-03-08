@@ -11,7 +11,7 @@ http://alarmpi:8112
 58846
 
 sudo sed -i "s/\(\"download_location\": \"\).*\(\",\)/\1\/mnt\/shared\/downloads\2/g" /srv/deluge/.config/deluge/core.conf
-sudo sed -i "s/\(\"autoadd_location\": \"\).*\(\",\)/\1\/mnt\/shared\/watch\2/g" /srv/deluge/.config/deluge/core.conf
+sudo sed -i "s/\(\"autoadd_location\": \"\).*\(\",\)/\1\/mnt\/shared\/watch2\2/g" /srv/deluge/.config/deluge/core.conf
 sudo sed -i "s/\(\"torrentfiles_location\": \"\).*\(\",\)/\1\/mnt\/shared\/torrents\2/g" /srv/deluge/.config/deluge/core.conf
 
 
@@ -36,3 +36,7 @@ sudo sed -i "s/\(\"default_daemon\": \"\).*\(\"\)/\1127\.0\.0\.1:58846\2/g" /srv
 	
 	
 	echo "deluge:deluge:10" >> /srv/deluge/.config/deluge/auth
+	
+	
+	====
+ln -sf  /mnt/shared/deluge /srv/deluge
