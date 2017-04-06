@@ -47,15 +47,15 @@ function setup_general() {
 	#pacman-key --refresh-keys
 
 	pacman -Syu --noconfirm
-	pacman -S --needed --noconfirm sudo mc htop lsof unrar unzip p7zip unace lrzip emacs tmux ffmpeg mediainfo samba wget git
+	pacman -S --needed --noconfirm sudo mc htop lsof unrar unzip p7zip unace lrzip emacs tmux samba wget git
 	
 	#
 	sed -i '/^hosts:/ s/$/ wins/' /etc/nsswitch.conf
 	
 	#
 	mkdir -p /mnt/shared/
-	setfacl -R -d -m o::rwx /mnt/shared/
-	setfacl -R -d -m g::rwx /mnt/shared/	
+	sudo setfacl -R -d -m o::rwx /mnt/shared/
+	sudo setfacl -R -d -m g::rwx /mnt/shared/	
 	ln -sf  /mnt/shared/ /srv/http/shared
 	ln -sf /srv/http /mnt/shared/http
 	
