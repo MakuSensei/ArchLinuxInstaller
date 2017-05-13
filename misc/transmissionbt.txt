@@ -45,6 +45,8 @@ sudo sed -i "s/\(\"download-queue-size\": \).*\(,\)/\110\2/g" /var/lib/transmiss
    "trash-original-torrent-files": false,
 
 
+sudo ln -s /mnt/shared/transmission /var/lib/transmission/.config/transmission-daemon
+
 ==============
 
 sudo pacman -S --needed autoconf automake pkg-config intltool 
