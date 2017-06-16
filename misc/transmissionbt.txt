@@ -1,4 +1,3 @@
-
 sudo pacman -S --needed transmission-remote-cli adns-python python2-geoip
 
 sudo systemctl enable transmission.service
@@ -8,42 +7,22 @@ $HOME/.config/transmission-daemon
 $HOME/.config/transmission-cli
 
 sudo sed -i "s/\(\"download-dir\": \"\).*\(\",\)/\1\/mnt\/shared\/downloads\2/g" /var/lib/transmission/.config/transmission-daemon/settings.json 
-
 sudo sed -i "s/\(\"rpc-whitelist\": \"\).*\(\",\)/\1\*\.\*\.\*\.\*\2/g" /var/lib/transmission/.config/transmission-daemon/settings.json 
-
 sudo sed -i "s/\(\"peer-port\": \).*\(,\)/\149999\2/g" /var/lib/transmission/.config/transmission-daemon/settings.json 
-
 sudo sed -i "s/\(\"speed-limit-down\": \).*\(,\)/\1155\2/g" /var/lib/transmission/.config/transmission-daemon/settings.json 
-
 sudo sed -i "s/\(\"speed-limit-down-enabled\": \).*\(,\)/\1true\2/g" /var/lib/transmission/.config/transmission-daemon/settings.json 
-
 sudo sed -i "s/\(\"speed-limit-up\": \).*\(,\)/\122\2/g" /var/lib/transmission/.config/transmission-daemon/settings.json 
-
 sudo sed -i "s/\(\"speed-limit-up-enabled\": \).*\(,\)/\1true\2/g" /var/lib/transmission/.config/transmission-daemon/settings.json 
-    
 sudo sed -i "N;s/\n}/,\n    \"watch-dir\": \"\/mnt\/shared\/watch\",\n    \"watch-dir-enabled\": true\n}/g" /var/lib/transmission/.config/transmission-daemon/settings.json 
-
 sudo sed -i "s/\(\"alt-speed-down\": \).*\(,\)/\1256\2/g" /var/lib/transmission/.config/transmission-daemon/settings.json 
-
 sudo sed -i "s/\(\"alt-speed-up\": \).*\(,\)/\136\2/g" /var/lib/transmission/.config/transmission-daemon/settings.json 
-
 sudo sed -i "s/\(\"alt-speed-enabled\": \).*\(,\)/\1true\2/g" /var/lib/transmission/.config/transmission-daemon/settings.json 
-
 sudo sed -i "s/\(\"alt-speed-time-enabled\": \).*\(,\)/\1true\2/g" /var/lib/transmission/.config/transmission-daemon/settings.json 
-
 sudo sed -i "s/\(\"alt-speed-time-begin\": \).*\(,\)/\160\2/g" /var/lib/transmission/.config/transmission-daemon/settings.json 
-
 sudo sed -i "s/\(\"alt-speed-time-end\": \).*\(,\)/\1360\2/g" /var/lib/transmission/.config/transmission-daemon/settings.json 
-
-
 sudo sed -i "s/\(\"download-queue-size\": \).*\(,\)/\110\2/g" /var/lib/transmission/.config/transmission-daemon/settings.json 
 
-
-
-
-
-   "trash-original-torrent-files": false,
-
+"trash-original-torrent-files": false,
 
 sudo ln -s /mnt/shared/transmission /var/lib/transmission/.config/transmission-daemon
 
@@ -68,4 +47,5 @@ sudo ln -sf /var/lib/transmission/.config/transmission-daemon/settings.json /hom
 cp /var/lib/transmission/.config/transmission-daemon/settings.json /home/transmission/.config/transmission-daemon/
 
 =============
+
 ln -sf  /mnt/shared/transmission /home/transmission/.config/transmission-daemon
