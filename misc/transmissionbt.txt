@@ -25,9 +25,9 @@ sudo sed -i "s/\(\"alt-speed-enabled\": \).*\(,\)/\1true\2/g" /var/lib/transmiss
 sudo sed -i "s/\(\"alt-speed-time-enabled\": \).*\(,\)/\1true\2/g" /var/lib/transmission/.config/transmission-daemon/settings.json 
 sudo sed -i "s/\(\"alt-speed-time-begin\": \).*\(,\)/\160\2/g" /var/lib/transmission/.config/transmission-daemon/settings.json 
 sudo sed -i "s/\(\"alt-speed-time-end\": \).*\(,\)/\1360\2/g" /var/lib/transmission/.config/transmission-daemon/settings.json 
-sudo sed -i "s/\(\"download-queue-size\": \).*\(,\)/\110\2/g" /var/lib/transmission/.config/transmission-daemon/settings.json 
+#sudo sed -i "s/\(\"download-queue-size\": \).*\(,\)/\110\2/g" /var/lib/transmission/.config/transmission-daemon/settings.json 
 
-"trash-original-torrent-files": false,
+sudo sed -i "s/\(\"download-queue-enabled\": \).*\(,\)/\1false\2/g" /var/lib/transmission/.config/transmission-daemon/settings.json
 
 #sudo ln -s /mnt/shared/transmission /var/lib/transmission/.config/transmission-daemon
 sudo ln -s /mnt/shared/transmission/downloads /mnt/shared/downloads
