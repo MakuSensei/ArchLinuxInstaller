@@ -1,0 +1,20 @@
+winetricks zenity wine mpg123 wmctrl lib32-ncurses wine-staging wine_gecko wine-mono
+
+python swi-prolog racket emacs emacs-php-mode emacs-lua-mode
+
+git mercurial svn cvs bzr premake cmake scons
+
+texlive-most erlang ocaml ghc emacs-haskell-mode lua sbt scala apache-ant sbcl bigloo boost clang chicken
+
+ht radare2 binutils
+
+
+
+
+
+
+
+
+aur:
+
+solaar-git
