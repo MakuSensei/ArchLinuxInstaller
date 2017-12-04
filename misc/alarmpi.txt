@@ -1,9 +1,9 @@
 sudo fdisk /dev/sdb
-o ret
-n ret 1 ret ret +100M ret
-t ret c ret
-n ret 2 ret ret       ret
-w
+#o ret
+#n ret 1 ret ret +100M ret
+#t ret c ret
+#n ret 2 ret ret       ret
+#w
 
 sudo mkfs.vfat /dev/sdb1
 sudo mkdir boot
@@ -24,8 +24,6 @@ sudo umount boot root
 * Login as the default user alarm with the password alarm.
 * The default root password is root.
 
-==================================================================================================================
-
 #dd bs=1M if=ArchLinuxARM*.img of=/dev/mmcblk0p5
 #fdisk /dev/mmcblk0 => d 2 n e ret ret ret n l ret ret (del part 2, new extended part at 2, new logical  part at 5)
 #e2fsck /dev/mmcblk0p5
@@ -35,58 +33,28 @@ sudo umount boot root
 #hdmi_force_hotplug=1
 #hdmi_group=2 hdmi_mode=16 (1024x768@60Hz)
 
+pacman -Syu --noconfirm
+pacman -S --needed --noconfirm sudo mc htop lsof unrar unzip p7zip unace lrzip emacs tmux samba wget git
+	
+sed -i '/^hosts:/ s/$/ wins/' /etc/nsswitch.conf
+timedatectl set-timezone Australia/Sydney
+	
+echo -e '\narcher  ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
+groupadd sudo
+useradd -m -U -G sudo -s /bin/bash archer
+echo archer:pass | chpasswd
 
-function setup_general() {
-	#pacman -Scc
-
-	#rm -rf /etc/pacman.d/gnupg
-	#pacman-key  --init
-	#pacman -Syu
-	#pacman -S --needed --noconfirm archlinux-keyring
-	#pacman-key --populate archlinux
-	#pacman-key --refresh-keys
-
-	pacman -Syu --noconfirm
-	pacman -S --needed --noconfirm sudo mc htop lsof unrar unzip p7zip unace lrzip emacs tmux samba wget git
+mkdir -p /mnt/shared/
+sudo setfacl -R -d -m o::rwx /mnt/shared/
+sudo setfacl -R -d -m g::rwx /mnt/shared/	
+ln -sf  /mnt/shared/ /srv/http/shared
+ln -sf /srv/http /mnt/shared/http
+echo -e "\n\n/dev/sda1 /mnt/shared/ ext4 defaults,nofail,acl 0 0" >> /etc/fstab
+echo -e "#/dev/sda1 /mnt/shared/ ntfs-3g nofail,relatime,uid=1000,gid=1001,umask=000 0 0" >> /etc/fstab
+    
+systemctl enable smbd
+systemctl enable nmbd
+echo -e '[global]\n unix extensions = no\n map to guest = Bad User\n workgroup = WORKGROUP\n guest account = nobody\n security = user' > /etc/samba/smb.conf
+echo -e "\n[shared]\n path = /mnt/shared/\n guest ok = yes\n guest only = yes\n guest account = nobody\n create mask = 777\n force directory mode = 777\n writeable = yes\n browsable = yes\n follow symlinks = yes\n wide links = yes\n\n" >> /etc/samba/smb.conf
 	
-	#
-	sed -i '/^hosts:/ s/$/ wins/' /etc/nsswitch.conf
-	
-	#
-	mkdir -p /mnt/shared/
-	sudo setfacl -R -d -m o::rwx /mnt/shared/
-	sudo setfacl -R -d -m g::rwx /mnt/shared/	
-	ln -sf  /mnt/shared/ /srv/http/shared
-	ln -sf /srv/http /mnt/shared/http
-	
-	echo -e "\n\n/dev/sda1 /mnt/shared/ ext4 defaults,nofail,acl 0 0" >> /etc/fstab
-	echo -e "#/dev/sda1 /mnt/shared/ ntfs-3g nofail,relatime,uid=1000,gid=1001,umask=000 0 0" >> /etc/fstab
-
-	#
-	nano /etc/sudoers
-	echo -e '\narcher  ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
-	
-	groupadd sudo
-	useradd -m -U -G sudo -s /bin/bash archer
-	echo archer:pass | chpasswd
-	
-	#
-	echo -e '#!/bin/bash\ncpuTemp0=$(cat /sys/class/thermal/thermal_zone0/temp)\ncpuTemp1=$(($cpuTemp0/1000))\ncpuTemp2=$(($cpuTemp0/100))\ncpuTempM=$(($cpuTemp2 % $cpuTemp1))\n\necho CPU temp"="$cpuTemp1"."$cpuTempM"\xc2\xb0C"\necho GPU $(/opt/vc/bin/vcgencmd measure_temp)' > gettemp.sh
-	
-	
-	sudo timedatectl set-timezone Australia/Sydney
-}
-
-function setup_samba() {
-	cp -f /etc/samba/smb.conf.default /etc/samba/smb.conf
-	sed -i 's/MYGROUP/WORKGROUP/g' /etc/samba/smb.conf
-	sed -i 's/;  guest account = pcguest/  guest account = nobody/g' /etc/samba/smb.conf
-	sed -i "/^\[global\]$/ a\ map to guest = Bad User" /etc/samba/smb.conf
-	sed -i "/^\[global\]$/ a\ unix extensions = no" /etc/samba/smb.conf
-	echo -e "\n[shared]\n path = /mnt/shared/\n guest ok = yes\n guest only = yes\n guest account = nobody\n create mask = 777\n force directory mode = 777\n writeable = yes\n browsable = yes\n follow symlinks = yes\n wide links = yes\n\n" >> /etc/samba/smb.conf
-	
-	systemctl enable smbd	
-	systemctl start smbd
-	systemctl enable nmbd
-	systemctl start nmbd
-}
+echo -e '#!/bin/bash\ncpuTemp0=$(cat /sys/class/thermal/thermal_zone0/temp)\ncpuTemp1=$(($cpuTemp0/1000))\ncpuTemp2=$(($cpuTemp0/100))\ncpuTempM=$(($cpuTemp2 % $cpuTemp1))\n\necho CPU temp"="$cpuTemp1"."$cpuTempM"\xc2\xb0C"\necho GPU $(/opt/vc/bin/vcgencmd measure_temp)' > /usr/local/bin/gettemp.sh
