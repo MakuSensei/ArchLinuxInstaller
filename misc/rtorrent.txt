@@ -33,12 +33,8 @@ function setup_rtorrent() {
 	sed -i "s/#\(port_range = \).*/\149998-49998/g" $HOME/.rtorrent.rc
     
     echo 'scgi_port = localhost:5000' >> $HOME/.rtorrent.rc
-
-
-	
-	#/bin/sleep 15
-
-	echo -e '[Unit]\nDescription=rTorrent\nRequires=network.target local-fs.target\n\n[Service]\nType=forking\nRemainAfterExit=yes\nKillMode=none\nUser=rtorrent\nExecStartPre=rm -f /mnt/shared/rtorrent/session/rtorrent.lock\nExecStart=/usr/bin/tmux new-session -s rt -n rtorrent -d rtorrent\nExecStop=/usr/bin/tmux send-keys -t rt:rtorrent C-q\nWorkingDirectory=/home/rtorrent/\n\n[Install]\nWantedBy=multi-user.target' > /etc/systemd/system/rt.service
+   
+    echo -e '[Unit]\nDescription=rTorrent\nRequires=network.target local-fs.target\n\n[Service]\nType=forking\nRemainAfterExit=yes\nKillMode=none\nUser=rtorrent\nExecStartPre=/usr/bin/rm -f /mnt/shared/rtorrent/session/rtorrent.lock\nExecStart=/usr/bin/tmux new-session -s rt -n rtorrent -d rtorrent\nExecStop=/usr/bin/tmux send-keys -t rt:rtorrent C-q\nWorkingDirectory=/home/rtorrent/\n\n[Install]\nWantedBy=default.target' > /etc/systemd/system/rt.service
 
 	systemctl enable rt
 	systemctl start rt
