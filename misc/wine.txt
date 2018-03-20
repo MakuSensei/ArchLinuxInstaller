@@ -1,1 +1,0 @@
-sudo pacman -S --needed --noconfirm winetricks zenity wine mpg123 wmctrl lib32-ncurses wine-staging wine_gecko wine-mono

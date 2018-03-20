@@ -1,1 +1,0 @@
-sudo pacman -S --needed qemu qemu-arch-extra gnome-boxes

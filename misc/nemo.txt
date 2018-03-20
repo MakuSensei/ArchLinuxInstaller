@@ -1,4 +1,0 @@
-sudo pacman -S --needed --noconfirm nemo nemo-fileroller nemo-share nemo-preview
-
-gsettings set org.nemo.desktop show-desktop-icons false
-gsettings set org.cinnamon.desktop.default-applications.terminal exec terminator
